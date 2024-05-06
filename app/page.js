@@ -11,7 +11,7 @@ export default function Home() {
       <h2 className="section-title">Choose the Items You Wish to Add!</h2>
       {loading ? (
         <div>
-          <h2>Loading Products...</h2>
+          {/* <h2>Loading Products...</h2> */}
         </div>
       ) : (
         <div className="grid-4-col">
