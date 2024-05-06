@@ -88,6 +88,6 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  const context = useContext(CartContext);
-  return context;
+  const change = useContext(CartContext);
+  return change;
 }

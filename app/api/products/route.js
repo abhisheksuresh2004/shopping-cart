@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 const API_URL = "https://fakestoreapi.com/products";
 
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
 // const ProductList = () => {
 //   const [products, setProducts] = useState([]);
