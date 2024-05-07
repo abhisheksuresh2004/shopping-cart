@@ -5,25 +5,26 @@ import { useContext, createContext, useEffect, useState } from "react";
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [cart, setCart] = useState([]);
+  const [buff, setter] = useState(true);
+  const [cart, cartTrack] = useState([]);
+  const [products, detailsProduct] = useState([]);
+
 
   useEffect(() => {
     async function fetchProducts() {
       try {
+        //will try to implement for other apis in the future
         const re = await fetch("/api/products"); 
         const pd = await re.json();
-        setProducts(pd);
-        setLoading(false);
+        detailsProduct(pd);
+        setter(false);
       } catch (error) {
         console.error("couldn't get products:", error);
-        setLoading(false);
+        setter(false);
       }
     }
 //     // pages/products.js
 
-// import React, { useState, useEffect } from 'react';
 
 // const Products = () => {
 //   const [products, setProducts] = useState([]);
@@ -68,26 +69,50 @@ export function CartProvider({ children }) {
 //   );
 // };
 
+
+// const ExampleComponent = () => {
+//   const [count, setCount] = useState(0);
+
+//   return (
+//     <div>
+//       <p>You clicked {count} times</p>
+//       {/* When the button is clicked, call setCount to update the count state */}
+//       <button onClick={() => setCount(count + 1)}>
+//         Click me
+//       </button>
+//     </div>
+//   );
+// }
+
+
+
 // export default Products;
 
     fetchProducts();
   }, []);
-  const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+
+  const cartAd = (product) => {
+    cartTrack((prevCart) => [...prevCart, product]);
   };
+
   const removeFromCart = (productId) => {
-    setCart((prevCart) => prevCart.filter((item) => item.id !== productId));
+    cartTrack((prevCart) => prevCart.filter((item) => item.id !== productId));
   };
+  
+
   return (
+
+    //want to get the provider which acts as a wrapper here, where we can accordingly change our state
     <CartContext.Provider
-      value={{ products, loading, cart, addToCart, removeFromCart }}
+      value={{ products, buff, cart, cartAd, removeFromCart }}
     >
       {children}
     </CartContext.Provider>
   );
 }
 
+
 export function useCart() {
-  const change = useContext(CartContext);
-  return change;
+  const constantlyUpdates = useContext(CartContext);
+  return constantlyUpdates;
 }
